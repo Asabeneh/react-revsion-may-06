@@ -8,11 +8,43 @@ const InputField = ({
   value,
   placeholder,
   onChange,
-  error
+  error,
+  checked
 }) => {
+  if(type === 'radio') {
+    return <div>
+      <input
+        type= {type}
+        name={name}
+        id={name}
+        value={value}
+        onChange={onChange}
+        checked={checked}
+      />
+      {label  && <label htmlFor={name}>{label}</label>}
+      {error && <small>{error}</small>}
+
+    </div>
+  }
+  else if (type === 'checkbox'){
+      return <div>
+        <input
+          type= {type}
+          name={name}
+          id={name}
+          value={value}
+          onChange={onChange}
+          checked={checked}
+        />
+        {label && <label htmlFor={name}>{label}</label>}
+        {error && <small>{error}</small>}
+
+      </div>
+    }
+  
   return (
     <div>
-      {(label && type ==='text') && <label htmlFor = {name}>{label}</label>}
+      {label && <label htmlFor={name}>{label}</label>}
       <input
         type={type}
         name={name}
@@ -20,15 +52,16 @@ const InputField = ({
         placeholder={placeholder}
         value={value}
         onChange={onChange}
+        checked={checked}
       />
-        {(label && type !== 'text') && <label htmlFor={name}>{label}</label>}
       {error && <small>{error}</small>}
-
     </div>
-  );
+  )
+    
 };
 InputField.defaultProps = {
-    type:'text'
+    type:'text',
+    placeholder:''
 }
 InputField.propTypes = {
 

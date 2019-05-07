@@ -16,7 +16,9 @@ class App extends Component {
         name: "Asabeneh",
         todos: ["Item 1", "Item 2", "Item 3"],
         todo: "",
-        feedback: ''
+        feedback: '',
+        users:[]
+
     };
 
     handleAdd = () => {
@@ -43,6 +45,14 @@ class App extends Component {
             todo: e.target.value
         });
     };
+    addUser = (user) => {
+        this.setState((prevState) => {
+            return {
+                users: [...prevState.users, user]
+            }
+        })
+
+    }
     handleSubmit = e => {
         e.preventDefault();
         if (!this.state.todo) {
@@ -65,15 +75,17 @@ class App extends Component {
             todo: ""
         });
 
-    };
+    }
     render() {
         const { isLoggedIn, count, todos } = this.state;
         const status = isLoggedIn ? "LOGOUT" : "LOGIN";
-       
+        console.log(this.state.users)
+
 
         return (
             <div>
-            <AddUser />
+           <h1>{this.state.users.length}</h1>
+            <AddUser addUser = {this.addUser} />
             <Header /> 
                 <p>{this.state.feedback}</p>
                 <AddTodo 
