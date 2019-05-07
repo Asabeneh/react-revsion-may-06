@@ -3,6 +3,7 @@ import Header from './components/Header'
 import Greeting from './components/Greeting';
 import AddTodo from './components/AddTodo';
 import TodoList from './components/TodoList';
+import AddUser from './components/AddUser';
 /*
 TodoList
 
@@ -72,6 +73,7 @@ class App extends Component {
 
         return (
             <div>
+            <AddUser />
             <Header /> 
                 <p>{this.state.feedback}</p>
                 <AddTodo 
