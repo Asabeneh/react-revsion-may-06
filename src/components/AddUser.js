@@ -32,7 +32,7 @@ class AddUser extends React.Component {
       message: false,
     }
   };
-
+ 
   //
   handleChange = e => {
     const { name, value, type } = e.target;
@@ -52,7 +52,6 @@ class AddUser extends React.Component {
 
   handleSubmit = e => {
     e.preventDefault();
-    console.log(this.state);
     const {
       firstName,
       lastName,
@@ -62,7 +61,6 @@ class AddUser extends React.Component {
       message,
       skills
     } = this.state;
-    console.log(skills);
     const newSkills = [];
     for (const skill in skills) {
       if (skills[skill]) {
@@ -84,7 +82,6 @@ class AddUser extends React.Component {
   };
   handleBlur = e => {
       const {name} = e.target;
-      console.log(name)
       this.setState({
           touched:{...this.state.touched, [name]:true}
       })
@@ -111,9 +108,7 @@ class AddUser extends React.Component {
       return errors;
   }
   render() {
-    console.log("render methods");
     const errors = this.validate();
-    console.log(errors)
     return (
       <div>
         <form onSubmit={this.handleSubmit}>
