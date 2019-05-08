@@ -5,6 +5,7 @@ import Todo from "./Todo";
 const TodoList = props => {
   const todoList = props.todos.map((todo, i) => {
     return <Todo 
+    key={'key'+ i}
     todo = {todo}
     handleDelete = {props.handleDelete}
     index = {i}

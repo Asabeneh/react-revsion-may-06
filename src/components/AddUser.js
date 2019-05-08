@@ -4,10 +4,10 @@ import SelectField from "./SelectField";
 import TextareaField from "./TextareaField";
 
 const options = [
-    { label: "--Select Country---", value: '' },
-    { label: 'Finnish', value: 'Finnish' },
-    { label: 'Swedish', value: 'Swedish' },
-    { label: 'Danish', value: 'Danish' }
+  { label: "--Select Country---", value: "" },
+  { label: "Finnish", value: "Finnish" },
+  { label: "Swedish", value: "Swedish" },
+  { label: "Danish", value: "Danish" }
 ];
 
 class AddUser extends React.Component {
@@ -18,20 +18,28 @@ class AddUser extends React.Component {
     lastName: "",
     age: "",
     gender: "",
-    country:'',
-    message:"",
+    country: "",
+    message: "",
     skills: {
       html: false,
       css: false,
       javascript: false
+    },
+    touched: {
+      firstName: false,
+      lastName: false,
+      age: false,
+      message: false,
     }
   };
+
+  //
   handleChange = e => {
     const { name, value, type } = e.target;
     if (type === "checkbox") {
       const skills = { ...this.state.skills };
       // const skills = Object.assign({}, this.state.skills);
-      skills[name] = true
+      skills[name] = !skills[name];
       this.setState({
         skills
       });
@@ -45,29 +53,67 @@ class AddUser extends React.Component {
   handleSubmit = e => {
     e.preventDefault();
     console.log(this.state);
-     const {firstName, lastName, age, gender,country, message, skills} = this.state;
-     console.log(skills)
-     const newSkills = [];
-     for(const skill in skills) {
-         if (skills[skill]){
-             newSkills.push(skill.toUpperCase())
-         }  
-     }
-  
-     const user = {
-         firstName, 
-         lastName, 
-         age,
-         gender,
-         skills:newSkills,
-         country,
-         message
-        };
+    const {
+      firstName,
+      lastName,
+      age,
+      gender,
+      country,
+      message,
+      skills
+    } = this.state;
+    console.log(skills);
+    const newSkills = [];
+    for (const skill in skills) {
+      if (skills[skill]) {
+        newSkills.push(skill.toUpperCase());
+      }
+    }
 
-        this.props.addUser(user)
+    const user = {
+      firstName,
+      lastName,
+      age,
+      gender,
+      skills: newSkills,
+      country,
+      message
+    };
+
+    this.props.addUser(user);
+  };
+  handleBlur = e => {
+      const {name} = e.target;
+      console.log(name)
+      this.setState({
+          touched:{...this.state.touched, [name]:true}
+      })
 
   };
+  validate = () => {
+      const errors = {
+          firstName: '',
+          lastName: '',
+          age: '',
+          message: '',
+      }
+      const {firstName, lastName, age, message} = this.state.touched;
+      if(firstName && this.state.firstName.length < 3){
+        errors.firstName = "First name must have at least 2 characters."
+      }
+      if (lastName && this.state.lastName.length < 3) {
+          errors.lastName = "Last name must have at least 2 characters."
+      }
+      if (age && Number(this.state.age) < 18) {
+          errors.age = "You must be above 18"
+      }
+      
+      return errors;
+  }
   render() {
+    console.log("render methods");
+    const errors = this.validate();
+    console.log(errors)
     return (
       <div>
         <form onSubmit={this.handleSubmit}>
@@ -77,6 +123,8 @@ class AddUser extends React.Component {
             value={this.state.firstName}
             placeholder="First Name"
             onChange={this.handleChange}
+            onBlur={this.handleBlur}
+            error = {errors.firstName}
           />
           <InputField
             label="Last Name"
@@ -84,6 +132,8 @@ class AddUser extends React.Component {
             value={this.state.lastName}
             placeholder="Last Name"
             onChange={this.handleChange}
+            onBlur={this.handleBlur}
+             error = {errors.lastName}
           />
 
           <InputField
@@ -92,6 +142,8 @@ class AddUser extends React.Component {
             value={this.state.age}
             placeholder="Age"
             onChange={this.handleChange}
+            onBlur={this.handleBlur}
+            error={errors.age}
           />
           <p>Gender:</p>
           <InputField
@@ -99,6 +151,7 @@ class AddUser extends React.Component {
             label="Female"
             name="gender"
             value="Female"
+            checked={this.state.gender === "Female"}
             onChange={this.handleChange}
           />
           <InputField
@@ -106,6 +159,7 @@ class AddUser extends React.Component {
             label="Male"
             name="gender"
             value="Male"
+            checked={this.state.gender === "Male"}
             onChange={this.handleChange}
           />
           <InputField
@@ -113,6 +167,7 @@ class AddUser extends React.Component {
             label="Other"
             name="gender"
             value="Other"
+            checked={this.state.gender === "Other"}
             onChange={this.handleChange}
           />
           <p>Skills:</p>
@@ -120,12 +175,14 @@ class AddUser extends React.Component {
             type="checkbox"
             label="HTML"
             name="html"
+            checked={this.state.skills.html}
             onChange={this.handleChange}
           />
           <InputField
             type="checkbox"
             label="CSS"
             name="css"
+            checked={this.state.skills.css}
             onChange={this.handleChange}
           />
           <InputField
@@ -136,17 +193,19 @@ class AddUser extends React.Component {
             onChange={this.handleChange}
           />
           <SelectField
-          options = {options}
-          label="Country"
-          name="country"
-          value = {this.state.country}
-          onChange = {this.handleChange}
-            />
-            <TextareaField 
+            options={options}
+            label="Country"
+            name="country"
+            value={this.state.country}
+            onChange={this.handleChange}
+          />
+          <TextareaField
             name="message"
-            value = {this.state.message}
-            onChange = {this.handleChange}
-            />
+            value={this.state.message}
+            onChange={this.handleChange}
+            onBlur={this.handleBlur}
+            error={errors.message}
+          />
           <button>Submit</button>
         </form>
       </div>

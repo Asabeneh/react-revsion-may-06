@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 
 
 const SelectField = ({ options, label, name, value, onChange }) => {
-const optionList = options.map((option) => <option value={option.value}>{option.label}</option>)
+const optionList = options.map((option) => <option key={option.value} value={option.value}>{option.label}</option>)
   return (
     <div>
       <label>{label}: </label>

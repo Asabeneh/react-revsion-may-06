@@ -8,6 +8,7 @@ const InputField = ({
   value,
   placeholder,
   onChange,
+  onBlur,
   error,
   checked
 }) => {
@@ -19,6 +20,7 @@ const InputField = ({
         id={name}
         value={value}
         onChange={onChange}
+        onBlur = {onBlur}
         checked={checked}
       />
       {label  && <label htmlFor={name}>{label}</label>}
@@ -34,6 +36,7 @@ const InputField = ({
           id={name}
           value={value}
           onChange={onChange}
+          onBlur={onBlur}
           checked={checked}
         />
         {label && <label htmlFor={name}>{label}</label>}
@@ -52,8 +55,10 @@ const InputField = ({
         placeholder={placeholder}
         value={value}
         onChange={onChange}
+        onBlur={onBlur}
         checked={checked}
       />
+      <br />
       {error && <small>{error}</small>}
     </div>
   )
